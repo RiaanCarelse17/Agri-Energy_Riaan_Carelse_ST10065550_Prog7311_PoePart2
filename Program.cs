@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models; // Adjust if your DbContext lives in another folder
+
 namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
 {
     public class Program
@@ -5,6 +8,10 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // ✅ Add DbContext using SQLite
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -15,7 +22,6 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

@@ -1,8 +1,45 @@
-﻿@{
+﻿@model Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.LoginViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Agri-Energy Login</h1>
+
+    <form asp-action="Login" method="post">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input asp-for="FirstName" class="form-control" placeholder="Enter your first name" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>User Type</label>
+            <select asp-for="UserType" class="form-control">
+                <option value="">Select User Type</option>
+                <option value="Farmer">Farmer</option>
+                <option value="Employee">Employee</option>
+            </select>
+            <span asp-validation-for="UserType" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Login</button>
+
+        @if (!string.IsNullOrEmpty(ViewBag.LoginError as string))
+        {
+            <div class="text-danger mt-2">@ViewBag.LoginError</div>
+        }
+    </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
