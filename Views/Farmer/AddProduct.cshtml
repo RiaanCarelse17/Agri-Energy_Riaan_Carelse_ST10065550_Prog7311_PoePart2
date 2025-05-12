@@ -3,3 +3,47 @@
 *@
 @{
 }
+@model Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="container">
+    <h2>Add New Product</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-controller="Farmer" asp-action="AddProduct" method="post">
+        <div class="form-group">
+            <label for="Name">Product Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Category">Category</label>
+            <input asp-for="Category" class="form-control" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="ProductionDate">Production Date</label>
+            <input asp-for="ProductionDate" type="date" class="form-control" />
+            <span asp-validation-for="ProductionDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Save Product</button>
+
+    </form>
+
+    <br />
+    <a asp-controller="Farmer" asp-action="Dashboard">
+        <button class="btn btn-secondary">Back to Dashboard</button>
+    </a>
+
+
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

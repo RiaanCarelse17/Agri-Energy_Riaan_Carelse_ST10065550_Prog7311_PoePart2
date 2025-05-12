@@ -1,5 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Product>
+
 @{
+    ViewData["Title"] = "View Farmer Products";
 }
+
+<h2>View Farmer Products</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Farmer Name</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Production Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    @(product.Farmer != null
+                        ? $"{product.Farmer.FirstName} {product.Farmer.LastName}"
+                        : "Unknown Farmer")
+                </td>
+                <td>@product.Name</td>
+                <td>@product.Category</td>
+                <td>@product.ProductionDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

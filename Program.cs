@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models; // Adjust if your DbContext lives in another folder
+using Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
 {
@@ -9,16 +10,24 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // ✅ Add DbContext using SQLite
+            // ✅ Register DbContext with SQLite
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Add services to the container.
+            // Add services to the container
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // ✅ Seed the database
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<AppDbContext>();
+                DbInitializer.Seed(context); 
+            }
+
+            // Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");

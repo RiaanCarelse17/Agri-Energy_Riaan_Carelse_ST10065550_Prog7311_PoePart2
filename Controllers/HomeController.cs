@@ -32,17 +32,34 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             {
                 var farmer = _context.Farmers.FirstOrDefault(f => f.FirstName == model.FirstName && f.Password == model.Password);
                 if (farmer != null)
+                {
+                    TempData["UserType"] = "Farmer";
+                    TempData["UserId"] = farmer.FarmerId;
+                    TempData["UserName"] = farmer.FirstName;
                     return RedirectToAction("Dashboard", "Farmer", new { id = farmer.FarmerId });
+                }
             }
             else if (model.UserType == "Employee")
             {
                 var employee = _context.Employees.FirstOrDefault(e => e.FirstName == model.FirstName && e.Password == model.Password);
                 if (employee != null)
+                {
+                    TempData["UserType"] = "Employee";
+                    TempData["UserId"] = employee.EmployeeId;
+                    TempData["UserName"] = employee.FirstName;
                     return RedirectToAction("Dashboard", "Employee", new { id = employee.EmployeeId });
+                }
             }
 
             ModelState.AddModelError("", "Invalid login credentials");
             return View("Index", model);
+        }
+
+
+        public IActionResult Logout()
+        {
+            TempData.Clear();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

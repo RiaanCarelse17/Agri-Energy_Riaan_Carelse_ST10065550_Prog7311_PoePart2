@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Product
+
 @{
+    ViewData["Title"] = "Farmer Dashboard";
+}
+
+<h2>Farmer Dashboard</h2>
+
+<!-- Add Product Button -->
+<div>
+    <a asp-controller="Farmer" asp-action="AddProduct" method="post">
+        <button class="btn btn-primary">Add Product</button>
+    </a>
+</div>
+
+<!-- Log Out Form -->
+<form asp-action="Logout" method="get" class="mt-4">
+    <button type="submit" class="btn btn-secondary">Log Out</button>
+</form>
+
+<!-- Display Success or Error Message -->
+@if (!string.IsNullOrEmpty(ViewBag.Success as string))
+{
+    <div class="text-success mt-2">@ViewBag.Success</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Error as string))
+{
+    <div class="text-danger mt-2">@ViewBag.Error</div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
