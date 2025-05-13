@@ -54,19 +54,24 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
 
         // GET: Displays the list of products for farmers
         [HttpGet]
-        public async Task<IActionResult> ViewProducts(string categoryFilter, DateTime? dateFilter)
+        public async Task<IActionResult> ViewProducts(string categoryFilter, int? yearFilter, int? monthFilter)
         {
             IQueryable<Product> productsQuery = _context.Products.Include(p => p.Farmer);
 
-            // Apply filters if provided
-            if (!string.IsNullOrEmpty(categoryFilter))
+            if (!string.IsNullOrWhiteSpace(categoryFilter))
             {
-                productsQuery = productsQuery.Where(p => p.Category.Contains(categoryFilter));
+                productsQuery = productsQuery.Where(p =>
+                    p.Category.ToLower().Contains(categoryFilter.Trim().ToLower()));
             }
 
-            if (dateFilter.HasValue)
+            if (yearFilter.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.ProductionDate.Date == dateFilter.Value.Date);
+                productsQuery = productsQuery.Where(p => p.ProductionDate.Year == yearFilter.Value);
+            }
+
+            if (monthFilter.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.ProductionDate.Month == monthFilter.Value);
             }
 
             var products = await productsQuery.ToListAsync();
