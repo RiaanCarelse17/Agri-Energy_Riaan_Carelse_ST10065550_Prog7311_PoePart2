@@ -19,19 +19,19 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
 
         // Displays the Employee Dashboard
         [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        // Displays the Employee Dashboard with Add Farmer and View Products Options
-        [HttpGet]
         public IActionResult Dashboard()
         {
             return View();
         }
 
-        // Adds a new farmer to the database
+        // GET: Show Add Farmer Form
+        [HttpGet]
+        public IActionResult AddFarmer()
+        {
+            return View();
+        }
+
+        // POST: Adds a new farmer to the database
         [HttpPost]
         public async Task<IActionResult> AddFarmer(Farmer farmer)
         {
@@ -49,12 +49,12 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
                     ViewBag.Error = "Something went wrong: " + ex.Message;
                 }
             }
-            return View("Dashboard");
+            return View();
         }
 
-        // Displays the list of products for farmers
+        // GET: Displays the list of products for farmers
         [HttpGet]
-        public async Task<IActionResult> ViewFarmerProducts(string categoryFilter, DateTime? dateFilter)
+        public async Task<IActionResult> ViewProducts(string categoryFilter, DateTime? dateFilter)
         {
             IQueryable<Product> productsQuery = _context.Products.Include(p => p.Farmer);
 
@@ -68,8 +68,6 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             {
                 productsQuery = productsQuery.Where(p => p.ProductionDate.Date == dateFilter.Value.Date);
             }
-
-            
 
             var products = await productsQuery.ToListAsync();
             return View(products);

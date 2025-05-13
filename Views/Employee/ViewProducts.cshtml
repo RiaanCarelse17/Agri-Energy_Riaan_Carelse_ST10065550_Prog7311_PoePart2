@@ -6,27 +6,51 @@
 
 <h2>View Farmer Products</h2>
 
-<table class="table table-bordered">
+<!-- View Farmer Products -->
+<form method="get" asp-action="ViewFarmerProducts">
+    <label for="CategoryFilter">Filter by Category:</label>
+    <input type="text" id="CategoryFilter" name="categoryFilter" />
+
+    <label for="DateFilter">Filter by Production Date:</label>
+    <input type="date" id="DateFilter" name="dateFilter" />
+
+    <button type="submit">Apply Filters</button>
+    <button type="reset">Clear Filters</button>
+</form>
+
+<br />
+
+<h3>List of Products</h3>
+<table>
     <thead>
         <tr>
             <th>Farmer Name</th>
             <th>Product Name</th>
-            <th>Category</th>
+            <th>Product Category</th>
             <th>Production Date</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model)
+        @if (Model != null && Model.Any())
+        {
+            foreach (var product in Model)
+            {
+                <tr>
+                    <td>
+                        @(product.Farmer != null
+                            ? $"{product.Farmer.FirstName} {product.Farmer.LastName}"
+                            : "Unknown Farmer")
+                    </td>
+                    <td>@product.Name</td>
+                    <td>@product.Category</td>
+                    <td>@product.ProductionDate.ToShortDateString()</td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @(product.Farmer != null
-                        ? $"{product.Farmer.FirstName} {product.Farmer.LastName}"
-                        : "Unknown Farmer")
-                </td>
-                <td>@product.Name</td>
-                <td>@product.Category</td>
-                <td>@product.ProductionDate.ToShortDateString()</td>
+                <td colspan="4">No products available.</td>
             </tr>
         }
     </tbody>

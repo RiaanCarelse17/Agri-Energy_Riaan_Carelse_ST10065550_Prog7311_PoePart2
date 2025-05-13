@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Farmer
+
+@{
     ViewData["Title"] = "Add New Farmer";
 }
 
@@ -6,23 +8,33 @@
 
 <form asp-action="AddFarmer" method="post">
     <div class="form-group">
-        <label for="FirstName">First Name</label>
-        <input type="text" id="FirstName" name="FirstName" class="form-control" required />
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="LastName">Last Name</label>
-        <input type="text" id="LastName" name="LastName" class="form-control" required />
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="email" id="Email" name="Email" class="form-control" required />
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="ContactNumber">Contact Number</label>
-        <input type="text" id="ContactNumber" name="ContactNumber" class="form-control" required />
+        <label asp-for="ContactNumber"></label>
+        <input asp-for="ContactNumber" class="form-control" />
+        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Add Farmer</button>
@@ -40,4 +52,8 @@
     <div class="alert alert-danger mt-3">
         @ViewBag.Error
     </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

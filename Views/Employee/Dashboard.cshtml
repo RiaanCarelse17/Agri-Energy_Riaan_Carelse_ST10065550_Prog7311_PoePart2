@@ -2,8 +2,8 @@
     ViewData["Title"] = "Employee Dashboard";
 }
 
-<div class="container">
-    <h1>Welcome to Employee Dashboard</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Welcome to Employee Dashboard</h1>
 
     <!-- Success message for adding farmer -->
     @if (ViewBag.Success != null)
@@ -13,85 +13,20 @@
         </div>
     }
 
-    <!-- Add Farmer Form -->
-    <form method="post" asp-action="AddFarmer">
-        <h2>Add a New Farmer</h2>
-        <div>
-            <label for="FirstName">First Name</label>
-            <input type="text" id="FirstName" name="firstName" required />
-        </div>
-        <div>
-            <label for="LastName">Last Name</label>
-            <input type="text" id="LastName" name="lastName" required />
-        </div>
-        <div>
-            <label for="Email">Email</label>
-            <input type="email" id="Email" name="email" required />
-        </div>
-        <div>
-            <label for="ContactNumber">Contact Number</label>
-            <input type="text" id="ContactNumber" name="contactNumber" required />
-        </div>
-        <button type="submit">Add Farmer</button>
-    </form>
+    <div class="d-grid gap-3">
+        <!-- Add Farmer -->
+        <form method="get" asp-action="AddFarmer">
+            <button type="submit" class="btn btn-primary">Add Farmer</button>
+        </form>
 
-    <br />
+        <!-- View Products -->
+        <form method="get" asp-action="ViewProducts">
+            <button type="submit" class="btn btn-secondary">View Products</button>
+        </form>
 
-    <!-- View Farmer Products -->
-    <h2>View Farmer Products</h2>
-    <form method="get" asp-action="ViewFarmerProducts">
-        <label for="CategoryFilter">Filter by Category:</label>
-        <input type="text" id="CategoryFilter" name="categoryFilter" />
-
-        <label for="DateFilter">Filter by Production Date:</label>
-        <input type="date" id="DateFilter" name="dateFilter" />
-
-        <button type="submit">Apply Filters</button>
-        <button type="reset">Clear Filters</button>
-    </form>
-
-    <br />
-
-    <h3>List of Products</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Farmer Name</th>
-                <th>Product Name</th>
-                <th>Product Category</th>
-                <th>Production Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                foreach (var product in Model)
-                {
-                    <tr>
-                        <td>
-                            @(product.Farmer != null
-                                ? $"{product.Farmer.FirstName} {product.Farmer.LastName}"
-                                : "Unknown Farmer")
-                        </td>
-                        <td>@product.Name</td>
-                        <td>@product.Category</td>
-                        <td>@product.ProductionDate.ToShortDateString()</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="4">No products available.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <br />
-
-    <!-- Logout -->
-    <form method="get" asp-action="Logout">
-        <button type="submit">Logout</button>
-    </form>
+        <!-- Logout -->
+        <form method="get" asp-action="Logout">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
 </div>
