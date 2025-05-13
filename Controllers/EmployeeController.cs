@@ -24,14 +24,14 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             return View();
         }
 
-        // GET: Show Add Farmer Form
+        //Show Add Farmer Form
         [HttpGet]
         public IActionResult AddFarmer()
         {
             return View();
         }
 
-        // POST: Adds a new farmer to the database
+        // Adds a new farmer to the database
         [HttpPost]
         public async Task<IActionResult> AddFarmer(Farmer farmer)
         {
@@ -52,7 +52,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             return View();
         }
 
-        // GET: Displays the list of products for farmers
+        //Displays the list of products for farmers
         [HttpGet]
         public async Task<IActionResult> ViewProducts(string categoryFilter, int? yearFilter, int? monthFilter)
         {
@@ -78,7 +78,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             return View(products);
         }
 
-        // Logs out the user and redirects to the home page
+        
         public IActionResult Logout()
         {
             return RedirectToAction("Index", "Home");

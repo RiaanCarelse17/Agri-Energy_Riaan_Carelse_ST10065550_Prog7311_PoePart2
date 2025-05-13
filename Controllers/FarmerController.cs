@@ -17,7 +17,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             _context = context;
         }
 
-        // ✅ Displays the Farmer Dashboard with their own products
+        //  Displays the Farmer Dashboard with their own products
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
@@ -35,14 +35,14 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             return View(products);
         }
 
-        // ✅ Displays the Add Product form
+        // Displays the Add Product form
         [HttpGet]
         public IActionResult AddProduct()
         {
             return View(new Product());
         }
 
-        // ✅ Handles product submission
+        // Handles product submission
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
@@ -75,7 +75,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             return View(product);
         }
 
-        // ✅ Logs the user out
+        // Logs the user out
         [HttpPost]
         public IActionResult Logout()
         {

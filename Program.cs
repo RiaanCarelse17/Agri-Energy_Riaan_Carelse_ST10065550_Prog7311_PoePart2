@@ -10,7 +10,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // ✅ Register DbContext with SQLite
+            //  Register DbContext with SQLite
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -27,7 +27,7 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
 
             var app = builder.Build();
 
-            // ✅ Seed the database
+            //  Seed the database
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
