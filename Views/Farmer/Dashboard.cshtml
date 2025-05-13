@@ -1,10 +1,49 @@
-﻿@model Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Product
+﻿@model List<Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models.Product>
 
 @{
     ViewData["Title"] = "Farmer Dashboard";
 }
 
-<h2>Farmer Dashboard</h2>
+<h2>Dashboard</h2>
+
+<!-- Display Success or Error Message -->
+@if (!string.IsNullOrEmpty(ViewBag.Success as string))
+{
+    <div class="text-success mt-2">@ViewBag.Success</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Error as string))
+{
+    <div class="text-danger mt-2">@ViewBag.Error</div>
+}
+
+<!-- Product List Table -->
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Production Date</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.ProductionDate.ToString("yyyy-MM-dd")</td>
+                    <td>@product.Category</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted mt-3">You haven't added any products yet.</p>
+}
 
 <!-- Add Product Button -->
 <div>
@@ -18,16 +57,6 @@
     <button type="submit" class="btn btn-secondary">Log Out</button>
 </form>
 
-<!-- Display Success or Error Message -->
-@if (!string.IsNullOrEmpty(ViewBag.Success as string))
-{
-    <div class="text-success mt-2">@ViewBag.Success</div>
-}
-
-@if (!string.IsNullOrEmpty(ViewBag.Error as string))
-{
-    <div class="text-danger mt-2">@ViewBag.Error</div>
-}
 
 @section Scripts {
     @{

@@ -1,6 +1,9 @@
 ﻿using Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
@@ -14,57 +17,70 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
             _context = context;
         }
 
-        // Displays the Farmer Dashboard
+        // ✅ Displays the Farmer Dashboard with their own products
         [HttpGet]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            int? farmerId = HttpContext.Session.GetInt32("FarmerId");
+
+            if (farmerId == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var products = await _context.Products
+                .Where(p => p.FarmerId == farmerId)
+                .ToListAsync();
+
+            return View(products);
         }
 
-        // Displays the AddProduct page (GET)
+        // ✅ Displays the Add Product form
         [HttpGet]
         public IActionResult AddProduct()
         {
             return View(new Product());
         }
 
-        // Adds a product to the database (POST)
+        // ✅ Handles product submission
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
+            int? farmerId = HttpContext.Session.GetInt32("FarmerId");
+
+            if (farmerId == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Assuming the FarmerId is stored in session or context
-                    // In a real app, you'd retrieve the logged-in farmer's ID
-                    product.FarmerId = 1; // Replace with actual logged-in farmer ID, if necessary
-
-                    // Ensuring the date is stored correctly
+                    product.FarmerId = farmerId.Value;
                     product.ProductionDate = product.ProductionDate.Date;
 
                     _context.Products.Add(product);
                     await _context.SaveChangesAsync();
 
-                    // Success message for product addition
-                    ViewBag.Success = "Product added successfully!";
-                    ModelState.Clear(); // Clear the form fields after successful submission
-                    return RedirectToAction("Dashboard"); // Redirect to Dashboard
+                    TempData["SuccessMessage"] = "Product added successfully!";
+                    return RedirectToAction("Dashboard");
                 }
                 catch (Exception ex)
                 {
-                    // Error handling
                     ViewBag.Error = "Something went wrong: " + ex.Message;
                 }
             }
-            return View(); // In case of error, return to the AddProduct page
+
+            return View(product);
         }
 
-        // Logs out the user and redirects to the home page
+        // ✅ Logs the user out
         [HttpPost]
         public IActionResult Logout()
         {
-            // You can add session clearing or authentication sign-out logic here if necessary
+            TempData.Clear();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

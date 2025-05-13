@@ -33,10 +33,14 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
                 var farmer = _context.Farmers.FirstOrDefault(f => f.FirstName == model.FirstName && f.Password == model.Password);
                 if (farmer != null)
                 {
+                    // Store in TempData (for layout/navbar)
                     TempData["UserType"] = "Farmer";
-                    TempData["UserId"] = farmer.FarmerId;
                     TempData["UserName"] = farmer.FirstName;
-                    return RedirectToAction("Dashboard", "Farmer", new { id = farmer.FarmerId });
+
+                    // Store FarmerId in Session for long-term use
+                    HttpContext.Session.SetInt32("FarmerId", farmer.FarmerId);
+
+                    return RedirectToAction("Dashboard", "Farmer");
                 }
             }
             else if (model.UserType == "Employee")
@@ -45,9 +49,11 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2.Controllers
                 if (employee != null)
                 {
                     TempData["UserType"] = "Employee";
-                    TempData["UserId"] = employee.EmployeeId;
                     TempData["UserName"] = employee.FirstName;
-                    return RedirectToAction("Dashboard", "Employee", new { id = employee.EmployeeId });
+
+                    HttpContext.Session.SetInt32("EmployeeId", employee.EmployeeId);
+
+                    return RedirectToAction("Dashboard", "Employee");
                 }
             }
 

@@ -17,6 +17,14 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
             // Add services to the container
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddDistributedMemoryCache(); // Required for session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // ✅ Seed the database
@@ -39,7 +47,11 @@ namespace Agri_Energy_Riaan_Carelse_ST10065550_Prog7311_PoePart2
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthorization();
+
+            
 
             app.MapControllerRoute(
                 name: "default",
